@@ -1,5 +1,5 @@
 const express = require("express");
-const PORT = 8080;
+const PORT = 3306;
 const cors = require("cors");
 const sql = require("./model/db");
 
