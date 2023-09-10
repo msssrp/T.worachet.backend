@@ -1,6 +1,6 @@
 module.exports = {
   HOST: "aws.connect.psdb.cloud",
-  USER: "bl4rmysp8sdzkuce66wp",
-  PASSWORD: "pscale_pw_P1bPRUByKTMenit1qzPxVNuwx9wmRBjRUnLw3j5Yc4G",
+  USER: "envdimyjq974q1n0idyt",
+  PASSWORD: "pscale_pw_a1rxmiGt3Y8oWwH6MPfJvMIaeKLNsNz7OAok3ZMRPKI",
   DB: "se_database",
 };
