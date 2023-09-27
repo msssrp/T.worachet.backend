@@ -1,6 +1,104 @@
 const express = require("express");
 const router = express.Router();
 const Restaurant = require("../controllers/restaurant.controller");
+const bcrypt = require("bcrypt")
+require("dotenv").config()
+const User = require("../controllers/restaurant.user.controller.js")
+const jwt = require("jsonwebtoken")
+const { Op } = require("sequelize")
+
+router.post("/restaurants/user/register", async (req, res) => {
+  try {
+    const { u_username, u_email, u_password } = req.body;
+
+    const existingEmailUser = await User.findOne({ where: { u_email } });
+
+    if (existingEmailUser) {
+
+      return res.status(400).json({ error: "Email already in use" });
+    }
+
+
+    const existingUsernameUser = await User.findOne({ where: { u_username } });
+
+    if (existingUsernameUser) {
+
+      return res.status(400).json({ error: "Username already in use" });
+    }
+
+    const saltRounds = 10;
+    bcrypt.hash(u_password, saltRounds, async (err, hashed) => {
+      if (err) {
+        return res.status(500).json({ error: "Failed to hash password" });
+      }
+
+      const newUser = { u_username: u_username, u_email: u_email, u_password: hashed };
+      const createUser = await User.createUser(newUser);
+      res.status(202).json(createUser);
+    });
+  } catch (error) {
+    res.status(500).json({ error: "Failed to create new user" });
+  }
+});
+
+
+router.post("/restaurants/user/login", async (req, res) => {
+  try {
+    const { identifier, u_password } = req.body;
+
+
+    const user = await User.findOne({
+      where: {
+        [Op.or]: [{ u_email: identifier }, { u_username: identifier }],
+      },
+    });
+
+    if (!user) {
+
+      return res.status(401).json({ error: "Invalid email or username or password" });
+    }
+
+
+    const passwordMatch = await bcrypt.compare(u_password, user.u_password);
+
+    if (!passwordMatch) {
+
+      return res.status(401).json({ error: "Invalid email or username or password" });
+    }
+
+
+    const token = jwt.sign({ userId: user.u_id }, process.env.secret, { expiresIn: '1h' });
+
+
+    res.status(200).json({ token });
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({ error: "Login failed" });
+  }
+});
+
+router.get('/restaurants/user/auth', (req, res) => {
+
+  const token = req.headers.authorization.split(" ")[1]
+
+  if (!token) {
+
+    return res.status(401).json({ error: 'Access denied. Token is missing.' });
+  }
+
+
+  jwt.verify(token, process.env.secret, (err, decoded) => {
+    if (err) {
+
+      return res.status(403).json({ error: 'Access denied. Invalid token.' });
+    }
+
+
+
+    res.status(200).json({ status: "success", decoded });
+  });
+});
+
 
 router.post("/restaurants", async (req, res) => {
   try {
