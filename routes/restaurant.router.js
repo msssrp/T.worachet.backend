@@ -3,7 +3,7 @@ const router = express.Router();
 const Restaurant = require("../controllers/restaurant.controller");
 const bcrypt = require("bcrypt")
 require("dotenv").config()
-const User = require("../controllers/restaurant.user.controller.js")
+const User = require("../controllers/restaurant.user.controller")
 const jwt = require("jsonwebtoken")
 const { Op } = require("sequelize")
 
