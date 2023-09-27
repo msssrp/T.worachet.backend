@@ -30,5 +30,11 @@ const Restaurant = sequelize.define("restaurant", {
     defaultValue: sequelize.literal("CURRENT_TIMESTAMP"),
   },
 });
+Restaurant.sync({ force: true }).then(() => {
+  console.log("table exists")
+}).catch(error => {
+  console.log(error)
+})
+
 
 module.exports = Restaurant;
