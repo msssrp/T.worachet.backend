@@ -83,19 +83,19 @@ router.get('/user/auth', (req, res) => {
 
   if (!token) {
 
-    return res.status(401).json({ error: 'Access denied. Token is missing.' });
+    return res.json({ status: "error ", msg: 'Access denied. Token is missing.' });
   }
 
 
   jwt.verify(token, process.env.secret, (err, decoded) => {
     if (err) {
 
-      return res.status(403).json({ error: 'Access denied. Invalid token.' });
+      return res.json({ status: "error", msg: 'Access denied. Invalid token.' });
     }
 
 
 
-    res.status(200).json({ status: "success", decoded });
+    res.json({ status: "success", decoded });
   });
 });
 
