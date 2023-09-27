@@ -30,7 +30,7 @@ const Restaurant = sequelize.define("restaurant", {
     defaultValue: sequelize.literal("CURRENT_TIMESTAMP"),
   },
 });
-Restaurant.sync({ force: true }).then(() => {
+Restaurant.sync({ force: false }).then(() => {
   console.log("table exists")
 }).catch(error => {
   console.log(error)

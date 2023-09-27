@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-//const Restaurant = require("../controllers/restaurant.controller");
+const Restaurant = require("../controllers/restaurant.controller");
 const bcrypt = require("bcrypt")
 require("dotenv").config()
 //const User = require("../controllers/restaurant.user.controller")
