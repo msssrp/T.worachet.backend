@@ -8,7 +8,8 @@ const role = db.role
 
 //dev mode
 
-db.sequelize.sync({ force: true }).then(() => {
+/*
+db.sequelize.sync({ force: false }).then(() => {
   console.log("drop db")
   initial()
 })
@@ -27,7 +28,7 @@ function initial() {
       name: "moderator"
     })
 }
-
+*/
 
 app.use(cors());
 app.use(express.json());

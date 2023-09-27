@@ -3,15 +3,15 @@ const router = express.Router();
 const Restaurant = require("../controllers/restaurant.controller");
 const bcrypt = require("bcrypt")
 require("dotenv").config()
-//const User = require("../controllers/restaurant.user.controller")
+const db = require("../controllers/user.controller")
 const jwt = require("jsonwebtoken")
 const { Op } = require("sequelize")
 
-router.post("/restaurants/user/register", async (req, res) => {
+router.post("/user/register", async (req, res) => {
   try {
-    const { u_username, u_email, u_password } = req.body;
+    const { username, email, password } = req.body;
 
-    const existingEmailUser = await User.findOne({ where: { u_email } });
+    const existingEmailUser = await db.user.findOne({ where: { email } });
 
     if (existingEmailUser) {
 
@@ -19,7 +19,7 @@ router.post("/restaurants/user/register", async (req, res) => {
     }
 
 
-    const existingUsernameUser = await User.findOne({ where: { u_username } });
+    const existingUsernameUser = await db.user.findOne({ where: { username } });
 
     if (existingUsernameUser) {
 
@@ -27,13 +27,14 @@ router.post("/restaurants/user/register", async (req, res) => {
     }
 
     const saltRounds = 10;
-    bcrypt.hash(u_password, saltRounds, async (err, hashed) => {
+    bcrypt.hash(password, saltRounds, async (err, hashed) => {
       if (err) {
         return res.status(500).json({ error: "Failed to hash password" });
       }
 
-      const newUser = { u_username: u_username, u_email: u_email, u_password: hashed };
-      const createUser = await User.createUser(newUser);
+      const newUser = { username: username, email: email, password: hashed };
+
+      const createUser = await db.user.createUser(newUser);
       res.status(202).json(createUser);
     });
   } catch (error) {
@@ -42,14 +43,14 @@ router.post("/restaurants/user/register", async (req, res) => {
 });
 
 
-router.post("/restaurants/user/login", async (req, res) => {
+router.post("/user/login", async (req, res) => {
   try {
-    const { identifier, u_password } = req.body;
+    const { identifier, password } = req.body;
 
 
-    const user = await User.findOne({
+    const user = await db.user.findOne({
       where: {
-        [Op.or]: [{ u_email: identifier }, { u_username: identifier }],
+        [Op.or]: [{ email: identifier }, { username: identifier }],
       },
     });
 
@@ -59,7 +60,7 @@ router.post("/restaurants/user/login", async (req, res) => {
     }
 
 
-    const passwordMatch = await bcrypt.compare(u_password, user.u_password);
+    const passwordMatch = await bcrypt.compare(password, user.password);
 
     if (!passwordMatch) {
 
@@ -67,12 +68,11 @@ router.post("/restaurants/user/login", async (req, res) => {
     }
 
 
-    const token = jwt.sign({ userId: user.u_id }, process.env.secret, { expiresIn: '1h' });
+    const token = jwt.sign({ userId: user.id }, process.env.secret, { expiresIn: '1h' });
 
 
     res.json({ status: "success", token })
   } catch (error) {
-    console.log(error)
     res.status(500).json({ error: "Login failed" });
   }
 });
