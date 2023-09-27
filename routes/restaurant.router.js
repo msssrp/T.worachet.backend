@@ -77,7 +77,7 @@ router.post("/restaurants/user/login", async (req, res) => {
   }
 });
 
-router.get('/restaurants/user/auth', (req, res) => {
+router.get('/user/auth', (req, res) => {
 
   const token = req.headers.authorization.split(" ")[1]
 
