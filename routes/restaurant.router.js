@@ -70,7 +70,7 @@ router.post("/restaurants/user/login", async (req, res) => {
     const token = jwt.sign({ userId: user.u_id }, process.env.secret, { expiresIn: '1h' });
 
 
-    res.status(200).json({ token });
+    res.json({ status: "success", token })
   } catch (error) {
     console.log(error)
     res.status(500).json({ error: "Login failed" });
