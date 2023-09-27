@@ -15,7 +15,7 @@ router.post("/restaurants/user/register", async (req, res) => {
 
     if (existingEmailUser) {
 
-      return res.status(400).json({ error: "Email already in use" });
+      return res.json({ status: "error", msg: "email already in use" })
     }
 
 
@@ -23,7 +23,7 @@ router.post("/restaurants/user/register", async (req, res) => {
 
     if (existingUsernameUser) {
 
-      return res.status(400).json({ error: "Username already in use" });
+      return res.json({ status: "error", msg: "username already is use" })
     }
 
     const saltRounds = 10;
@@ -55,7 +55,7 @@ router.post("/restaurants/user/login", async (req, res) => {
 
     if (!user) {
 
-      return res.status(401).json({ error: "Invalid email or username or password" });
+      return res.json({ status: "error", msg: "invalid password or username" })
     }
 
 
@@ -63,7 +63,7 @@ router.post("/restaurants/user/login", async (req, res) => {
 
     if (!passwordMatch) {
 
-      return res.status(401).json({ error: "Invalid email or username or password" });
+      return res.json({ status: "error", msg: "invalid password or username" })
     }
 
 
