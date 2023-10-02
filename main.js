@@ -3,7 +3,7 @@ const PORT = 3306;
 const cors = require("cors");
 const sequelize = require("./model/db")
 const app = express();
-const db = require("./model/index")
+const db = require("./model/db.index")
 const role = db.role
 
 //dev mode
