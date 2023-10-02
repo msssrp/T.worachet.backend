@@ -56,6 +56,7 @@ app.listen(PORT, () => {
 });
 
 const restaurantRouter = require("./routes/restaurant.router");
-
+const userRouter = require("./routes/user.router")
 
 app.use(restaurantRouter);
+app.use(userRouter)
