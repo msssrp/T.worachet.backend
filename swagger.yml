@@ -1,0 +1,108 @@
+openapi: 3.0.0
+info:
+  title: User API
+  version: 1.0.0
+  description: API for managing users
+paths:
+  /user/register:
+    post:
+      tags:
+        - user authenticate
+      summary: Create a new user (Sign up)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                username:
+                  type: string
+                password:
+                  type: string
+                  format: password
+      responses:
+        '201':
+          description: User created successfully
+          content:
+            application/json:
+              example:
+                id: 1
+                name: John Doe
+                email: john.doe@example.com
+  /user/login:
+    post:
+      tags: 
+        - user authenticate
+      summary: Sign in 
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                identifier:
+                  type: string
+                password: 
+                  type: string
+      responses:
+        '200':
+          description: Sign in successfully
+          content:
+            application/json:
+              example:
+                status: success
+                token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsInJvbGVzIjpbImFkbWluIiwibW9kZXJhdG9yIl0sImlhdCI6MTY5NjQwNjg1OCwiZXhwIjoxNjk2NDEwNDU4fQ.EzeV196MVI2FZ6y_Rn-7bOj6Uq89lAzE-qPofDvTF-k
+  /restaurants:
+    get:
+      tags:
+        - restaurants api
+      summary: get all restaurants
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              example:
+                - id: 1
+                  name: John Doe
+                  type: food
+                  image: url
+                  createdAt: time
+                  updatedAt: time
+                - id: 2
+                  name: John Doe
+                  type: food
+                  image: url
+                  createdAt: time
+                  updatedAt: time
+    post:
+      tags:
+        - restaurants api
+      summary: add new restaurant
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                type: 
+                  type: string
+                image:
+                  type: string
+      responses:
+        '201':
+          description: Restaurant created successfully
+          content:
+            application/json:
+              example:
+                - id: 1
+                  name: created
+                

@@ -1,10 +1,10 @@
 const express = require("express");
 const PORT = 3306;
 const cors = require("cors");
-const sequelize = require("./model/db")
 const app = express();
-const db = require("./model/db.index")
-const role = db.role
+const swaggerUi = require('swagger-ui-express');
+const YAML = require('yamljs');
+const swaggerDocument = YAML.load('./swagger.yml');
 
 //dev mode
 
@@ -60,3 +60,5 @@ const userRouter = require("./routes/user.router")
 
 app.use(restaurantRouter);
 app.use(userRouter)
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
