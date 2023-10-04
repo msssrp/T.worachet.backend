@@ -1,4 +1,4 @@
-const { DataType, DataTypes } = require("sequelize");
+const { DataTypes } = require("sequelize");
 const sequelize = require("./db");
 
 const Restaurant = sequelize.define("restaurant", {
@@ -30,8 +30,8 @@ const Restaurant = sequelize.define("restaurant", {
     defaultValue: sequelize.literal("CURRENT_TIMESTAMP"),
   },
 });
-Restaurant.sync({ force: false }).then(() => {
-  console.log("table exists")
+Restaurant.sync({ alter: true }).then(() => {
+  console.log("table sync")
 }).catch(error => {
   console.log(error)
 })

@@ -3,6 +3,7 @@ const moment = require("moment");
 
 Restaurant.createRestaurant = async (newRestaurant) => {
   try {
+    console.log(newRestaurant)
     const createRestaurant = await Restaurant.create(newRestaurant);
     console.log("Created new restaurant");
     return createRestaurant.toJSON();

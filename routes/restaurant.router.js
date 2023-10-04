@@ -6,9 +6,14 @@ require("dotenv").config()
 
 router.post("/restaurants", async (req, res) => {
   try {
-    const newRestaurant = req.body;
-    if (!newRestaurant || Object.keys(newRestaurant).length === 0) {
+    const { name, type, image } = req.body;
+    if (!name || !type || !image) {
       return res.status(400).json({ error: "please input informations" });
+    }
+    const newRestaurant = {
+      name: name,
+      type: type,
+      image: image
     }
     const createRestaurant = await Restaurant.createRestaurant(newRestaurant);
     res.status(202).json(createRestaurant);

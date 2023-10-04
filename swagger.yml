@@ -105,4 +105,80 @@ paths:
               example:
                 - id: 1
                   name: created
-                
+  /restaurants/{id}:
+    get:
+      tags:
+        - restaurants api
+      summary: get restaurant by id
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: get restaurant by id
+          content:
+            application/json:
+              example:
+                id: 1
+                name: Restaurant
+                type: food
+                image: url
+                createdAt: time
+                updatedAt: time
+    delete:
+      tags:
+        - restaurants api
+      summary: delete restaurants by id
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: delete restaurant by id
+          content:
+            application/json:
+              example:
+                id: 1
+                result: deleted
+    put:
+      tags:
+        - restaurants api
+      summary: update restaurant by id
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                type:
+                  type: string
+                image:
+                  type: string
+      responses:
+        '200':
+          description: successfully updated
+          content:
+            application/json:
+              example:
+                id: 1
+                name: food
+                type: food
+                image: url
+                createdAt: time
+                updatedAt: time
+            
