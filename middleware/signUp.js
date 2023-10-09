@@ -8,13 +8,13 @@ const signUp = async (req, res, next) => {
 
     const existingEmailUser = await db.user.findOne({ where: { email } });
     if (existingEmailUser) {
-      return res.status(406).json({ status: 'error', msg: 'Email already in use' });
+      return res.status(400).json({ status: 'error', msg: 'Email already in use' });
     }
 
 
     const existingUsernameUser = await db.user.findOne({ where: { username } });
     if (existingUsernameUser) {
-      return res.status(406).json({ status: 'error', msg: 'Username already in use' });
+      return res.status(400).json({ status: 'error', msg: 'Username already in use' });
     }
 
 

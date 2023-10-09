@@ -8,17 +8,6 @@ const registerUser = async (req, res) => {
   try {
     const { username, email, password, roles } = req.body;
 
-    // Check if email or username already exists
-    const existingUser = await db.user.findOne({
-      where: {
-        [Op.or]: [{ email }, { username }],
-      },
-    });
-
-    if (existingUser) {
-      return res.status(400).json({ msg: "Email or username already exists" });
-    }
-
     // Hash password
     const saltRounds = 10;
     const hashedPassword = await bcrypt.hash(password, saltRounds);
@@ -29,8 +18,11 @@ const registerUser = async (req, res) => {
     const createdUser = await db.user.create(newUser);
 
     // Assign roles to the user
-    const userRoles = await db.role.findAll({ where: { name: roles } });
-    await createdUser.addRoles(userRoles);
+    const user = await db.user.findOne({ where: { email } });
+    if (user) {
+      const userRoles = await db.role.findAll({ where: { name: roles } });
+      await user.addRoles(userRoles);
+    }
 
     res.status(200).json({ createdUser });
   } catch (error) {
@@ -38,7 +30,6 @@ const registerUser = async (req, res) => {
     res.status(500).json({ error: "Failed to create new user" });
   }
 };
-
 
 const loginUser = async (req, res) => {
   try {
