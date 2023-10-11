@@ -59,7 +59,7 @@ const loginUser = async (req, res) => {
     const roles = user.roles || user.get('roles');
 
     const tokenData = {
-      userId: user.id,
+      user: user,
       roles: roles.map(role => role.name),
     };
 
